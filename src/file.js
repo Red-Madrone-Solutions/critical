@@ -381,8 +381,11 @@ function getStylesheetHrefs(file) {
 
   const hasMeaningfulMedia = (el) => el.attr('media') && el.attr('media') !== 'print' && el.attr('media') !== 'all';
 
+  const isInNoScript = (el) => el.parent().is('noscript');
+
   const hrefs = stylesheets
     .filter((link) => isNotPrint(link.$el) && Boolean(link.value))
+    .filter((link) => !isInNoScript(link.$el))
     .map((link) => {
       // support base64 encoded styles
       if (link.value.startsWith('data:')) {
